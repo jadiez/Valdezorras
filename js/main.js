@@ -24,21 +24,19 @@ var vm = new Vue({
       aut.onAuthStateChanged(function(user) {
           if (user) {
             // User is signed in.
-            console.info("Conectado: ", user);
             vm.autentificado=true;
             vm.usuarioActivo.nombre="Anonimo";
           } else {
             // No user is signed in.
-            console.warn("No conectado");
             vm.autentificado=false;
             vm.usuarioActivo.nombre="";
           }
       });
 
       // Sincroniza datos con firebase
-//      db.ref('partidos/"').on('value', function(snapshot){
-//
-//      });
+      db.ref('partidos/-KR5Jb60demTLQ6i5QR8').on('value', function(snapshot){
+        vm.partidoActual=snapshot.val();  
+      });
 
       db.ref('jugadores/').on('value', function(snapshot){
         vm.jugadores=snapshot.val();
@@ -64,44 +62,45 @@ var vm = new Vue({
     // Metodos
     methods: {
       conectar: function () {
-        if (!this.autentificado) {
-        firebase.auth().signInAnonymously().catch(function(error) {
-            // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            // ...
-
-          });
+        if (!this.autentificado){
+        firebase.auth().signInWithEmailAndPassword("jadiez@fonotex.es", "Mekivel1").catch(function(error) {
+          // Handle Errors here.
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          // ...
+        });
+        this.verCrearPartidos = true;
         }else{
-          alert("Desconectado");
-          firebase.auth().signOut().then(function() {
-              // Sign-out successful.
-            }, function(error) {
-              // An error happened.
-          });
+        firebase.auth().signOut().then(function() {
+          // Sign-out successful.
+        }, function(error) {
+          // An error happened.
+        });
+        this.verCrearPartidos=false;
         }
       },
-      guardarPartido: function(){
-        // db.ref('partidos/').push({
-        //   fecha : this.partidoActual.fecha,
-        //   notas: "",
-        //   equipoA: this.partidoActual.equipoA,
-        //   equipoB: this.partidoActual.equipoB
-        // });
 
-        //  Actualiza datos jugadores del partidoActual
-        db.ref('jugadores/MOI').set({
-          ganados:0,
-          perdidos:1,
-          empatados:0,
-          goles: 0
-        });
-        db.ref('jugadores/IVAN').set({
-          ganados:0,
-          perdidos:1,
-          empatados:0,
-          goles: 1
-        });
+      // guardarPartido: function(){
+      //   // db.ref('partidos/').push({
+      //   //   fecha : this.partidoActual.fecha,
+      //   //   notas: "",
+      //   //   equipoA: this.partidoActual.equipoA,
+      //   //   equipoB: this.partidoActual.equipoB
+      //   // });
+      //
+      //   //  Actualiza datos jugadores del partidoActual
+      //   db.ref('jugadores/MOI').set({
+      //     ganados:0,
+      //     perdidos:1,
+      //     empatados:0,
+      //     goles: 0
+      //   });
+      //   db.ref('jugadores/IVAN').set({
+      //     ganados:0,
+      //     perdidos:1,
+      //     empatados:0,
+      //     goles: 1
+      //   });
 
         // if (this.golesEquipoA > this.golesEquipoB){
         //     for(var ix in vm.jugEquipoA){
@@ -167,27 +166,25 @@ var vm = new Vue({
         //   }
         // }
         // alert("Datos guardado");
-      },
-      verCampo: function(){
-        this.verCampoJuego = this.verCampoJuego ? false : true;
-      }
+
     },
 
     // ########################  Datos
     data: {
       autentificado: true,
-      verCampoJuego: true,
+      verPartidos: false,
       usuarioActivo: {
         nombre: "",
-        avatar: "img/avatar.png"
+        avatar: ""
       },
-      partidoActual:{
-            _key  : "",
-            fecha : "",
-            notas : "",
-            equipoA: {portero: {goles:0}, latizq: {goles:0}, latdcho: {goles:0}, central: {goles:0}, extizq: {goles:0}, extdcho: {goles:0},  delantero: {goles:0}},
-            equipoB: {portero: {goles:0}, latizq: {goles:0}, latdcho: {goles:0}, central: {goles:0}, extizq: {goles:0}, extdcho: {goles:0},  delantero: {goles:0}}
-      },
+      partidoActual: [],
+      // {
+      //       fecha : "",
+      //       notas : "",
+      //       equipoA: {portero: {goles:0}, latizq: {goles:0}, latdcho: {goles:0}, central: {goles:0}, extizq: {goles:0}, extdcho: {goles:0},  delantero: {goles:0}},
+      //       equipoB: {portero: {goles:0}, latizq: {goles:0}, latdcho: {goles:0}, central: {goles:0}, extizq: {goles:0}, extdcho: {goles:0},  delantero: {goles:0}}
+      // }
+      partidos:[],
       clasifica:[],
       jugadores:[],
     },
@@ -228,11 +225,8 @@ var vm = new Vue({
                  parseInt(this.partidoActual.equipoB.extdcho.goles)+
                  parseInt(this.partidoActual.equipoB.delantero.goles);
       },
-      textBoton1: function(){
-        return this.verCampoJuego ? "Ocultar Campo" : "Ver Campo";
-      },
-      textoBoton2: function(){
-        return this.autentificado ? "Clasificación" : "Partidos" ;
+      textoBoton1: function(){
+        return this.verPartidos ? "Clasificación" : "Ver Partidos";
       },
       jugEquipoA: function(){
         var equipo=[];
