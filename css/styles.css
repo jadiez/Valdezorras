@@ -25,38 +25,149 @@
 }
 
 .subtitulo{
-  height: 30px;
-  padding: 0px 10px;
-  color: #555;
+  width:400px;
+  display: inline-block;
+  height: 38px;
+  padding: 0 10px;
+  /*color: #555;*/
+  text-align: center;
   font-size: 16px;
   font-weight: 600;
-  line-height: 28px;
+  line-height: 38px;
   letter-spacing: .1rem;
-  text-align: center;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  /*background-color: transparent;*/
+  border-radius: 4px;
+  border: 1px solid;
+  cursor: pointer;
+  box-sizing: border-box;
+  color: #FFF;
+  background-color: #33C3F0;
+  border-color: #33C3F0;
+  /*border-color: #bbb;*/
 }
 
-#campoJuego{
-/*  background-image: url("../images/campoJuego.jpg");
+.campoJuego{
+  background-image: url("../img/campoFutbol2.jpg");
   background-repeat: no-repeat;
-  min-width: 445px; */
-  width: 420px;
-  padding: 15px 10px 10px 10px;
-  background-color: green;
+  width: 320px;
+  height:440px;
+  /*background-color: green;*/
+  border: 1px 1px 1px 1px;
+  position: relative;
 }
 
 .equipoRojo {
   text-align: center;
   background-color: red;
-  width: 90px
+  opacity:0.75;
+  min-width: 120px;
+  padding: 3px 0px 3px 0px ;
+  border-radius: 4px;
+}
 
+.fechaSelector{
+  display: inline-block;
+  height: 38px;
+  padding: 0 10px;
+  color: #555;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 38px;
+  letter-spacing: .1rem;
+  white-space: nowrap;
+  background-color: transparent;
+  border-radius: 4px;
+  border: 1px solid #bbb;
+  box-sizing: border-box;
 }
 
 .equipoAzul{
   text-align: center;
-  background-color: blue;
-   width: 90px
+  background-color: deepskyblue;
+  opacity:0.75;
+  min-width: 120px;
+  padding: 3px 0px 3px 0px ;
+  border-radius: 4px;
+}
+.nombre{
+  display: inline;
 }
 .goles{
-  text-align: center;
-  width: 28px
+  padding-left: 5px;
+  display: inline;
+  color: yellow;
+}
+.porteroA{
+  position: absolute;
+  top:  3%;
+  left: 31.25%;
+}
+.latDchoA{
+  position: absolute;
+  top:  14%;
+  left: 2%;
+}
+.latIzqA{
+  position: absolute;
+  top: 14%;
+  right: 2%;
+}
+.centralA{
+  position: absolute;
+  top:  23%;
+  left: 31.25%;
+}
+.extDchoA{
+  position: absolute;
+  top:  34%;
+  left: 5%;
+}
+.extIzqA{
+  position: absolute;
+  top: 34%;
+  right: 5%;
+}
+.delanteroA{
+  position: absolute;
+  top:  42%;
+  left: 31.25%;
+}
+.delanteroB{
+  position: absolute;
+  top:  51%;
+  left: 31.25%;
+}
+.extIzqB{
+  position: absolute;
+  top:  59%;
+  left: 5%;
+}
+.extDchoB{
+  position: absolute;
+  top: 59%;
+  right: 5%;
+}
+.centralB{
+  position: absolute;
+  top:  70%;
+  left: 31.25%;
+}
+.latIzqB{
+  position: absolute;
+  top:  79%;
+  left: 2%;
+}
+.latDchoB{
+  position: absolute;
+  top: 79%;
+  right: 2%;
+}
+.porteroB{
+  position: absolute;
+  top:  90%;
+  left: 31.25%;
 }

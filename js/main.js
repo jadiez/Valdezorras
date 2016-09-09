@@ -35,7 +35,7 @@ var vm = new Vue({
 
       // Sincroniza datos con firebase
       db.ref('partidos/-KR5Jb60demTLQ6i5QR8').on('value', function(snapshot){
-        vm.partidoActual=snapshot.val();  
+        vm.partidoActual=snapshot.val();
       });
 
       db.ref('jugadores/').on('value', function(snapshot){
@@ -44,16 +44,18 @@ var vm = new Vue({
         var objeto = snapshot.val();
          for (var player in objeto){
              var ptos = (objeto[player].ganados | 0)*3 + (objeto[player].empatados | 0)*2 + (objeto[player].perdidos | 0);
+             var jugados = (objeto[player].ganados | 0)+(objeto[player].empatados|0)+(objeto[player].perdidos|0);
+             var mvp = (ptos*0.6 + (objeto[player].goles|0) * 0.1 + jugados* 0.3);
              vm.clasifica.unshift({
                "jugador" : player,
                "nombre": objeto[player].nombre,
-               "jugados": (objeto[player].ganados | 0)+(objeto[player].empatados|0)+(objeto[player].perdidos|0),
+               "jugados": jugados,
                "ganados": (objeto[player].ganados | 0),
                "empatados":objeto[player].empatados | 0,
                "perdidos":objeto[player].perdidos | 0,
                "goles" : objeto[player].goles | 0,
                "puntos" : ptos,
-               "mvp" : Math.round((ptos * 0.9 +  (objeto[player].goles|0) * 0.1)*10)/10
+               "mvp" :  mvp.toFixed(1)
              });
          }
       });
