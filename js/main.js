@@ -5,16 +5,14 @@ var config = {
   databaseURL: "https://valdezorras-c08ad.firebaseio.com",
   storageBucket: "valdezorras-c08ad.appspot.com",
 };
-
 firebase.initializeApp(config);
 
 // Get a reference to the database service
 var db = firebase.database();
+
 // Get a reference to the authorize service
 var aut = firebase.auth(),
     provider = new firebase.auth.GoogleAuthProvider();
-
-
 
 // Variable Vue
 var vm = new Vue({
@@ -34,8 +32,21 @@ var vm = new Vue({
       });
 
       // Sincroniza datos con firebase
-      db.ref('partidos/-KR5Jb60demTLQ6i5QR8').on('value', function(snapshot){
-        vm.partidoActual=snapshot.val();
+      db.ref('partidos/').on('value', function(snapshot){
+        var tmpPartidos =snapshot.val();
+        for (var partido in tmpPartidos){
+          vm.partidos.push({
+            "key" : partido,
+            "equipoA" : tmpPartidos[partido].equipoA,
+            "equipoB" : tmpPartidos[partido].equipoB,
+            "fecha": tmpPartidos[partido].fecha,
+            "notas": tmpPartidos[partido].notas
+          });
+        }
+        vm.partidoActual = vm.partidos[vm.partidos.length-1];
+        vm.punteroPartidos = vm.partidos.length-1 ;
+        console.log("Actual: " + vm.partidoActual.fecha);
+        console.log("Partido[" + vm.punteroPartidos +"]: " + vm.partidos[vm.punteroPartidos].fecha);
       });
 
       db.ref('jugadores/').on('value', function(snapshot){
@@ -59,30 +70,62 @@ var vm = new Vue({
              });
          }
       });
+      this.esperando=false;
     },
 
     // Metodos
     methods: {
       conectar: function () {
-        if (!this.autentificado){
-        firebase.auth().signInWithEmailAndPassword("jadiez@fonotex.es", "Mekivel1").catch(function(error) {
-          // Handle Errors here.
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          // ...
-        });
-        this.verCrearPartidos = true;
+        var clave = prompt("Introduce la clave", "Mekivel1" );
+        this.partidoActual =  {
+              fecha : "", notas : "",
+              equipoA: {portero: {goles:0}, latizq: {goles:0}, latdcho: {goles:0}, central: {goles:0}, extizq: {goles:0}, extdcho: {goles:0},  delantero: {goles:0}},
+              equipoB: {portero: {goles:0}, latizq: {goles:0}, latdcho: {goles:0}, central: {goles:0}, extizq: {goles:0}, extdcho: {goles:0},  delantero: {goles:0}}
+        };
+        if (clave !== null) {
+          firebase.auth().signInWithEmailAndPassword("jadiez@fonotex.es", clave).catch(function(error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            alert (errorMessage);
+            // ...
+          });
+          this.addPartidos = true;
+
+          firebase.auth().signOut().then(function() {
+            // Sign-out successful.
+          }, function(error) {
+            // An error happened.
+          });
+          this.verCrearPartidos=false;
+          }
+      },
+      partidoAnterior: function(){
+        if (this.punteroPartidos-1<0){
+          alert ("Primer Partido");
         }else{
-        firebase.auth().signOut().then(function() {
-          // Sign-out successful.
-        }, function(error) {
-          // An error happened.
-        });
-        this.verCrearPartidos=false;
+          this.punteroPartidos--;
         }
+        this.partidoActual = this.partidos[this.punteroPartidos];
+      },
+      partidoSigiente: function(){
+        if (this.punteroPartidos+1>this.partidos.length-1){
+          alert ("Ultimo Partido");
+        }else{
+          this.punteroPartidos++;
+        }
+        this.partidoActual = this.partidos[this.punteroPartidos];
       },
 
-      // guardarPartido: function(){
+      guardaPartido: function(){
+        if(this.textoBoton2 =="Cancelar"){
+          alert ("Operación cancelada");
+        }else{
+          alert ("Partido Guardado");
+        }
+        this.partidoActual = this.partidos[this.partidos.length-1];
+        this.addPartidos =false;
+      }
       //   // db.ref('partidos/').push({
       //   //   fecha : this.partidoActual.fecha,
       //   //   notas: "",
@@ -174,25 +217,22 @@ var vm = new Vue({
     // ########################  Datos
     data: {
       autentificado: true,
+      addPartidos: false,
       verPartidos: false,
       usuarioActivo: {
         nombre: "",
         avatar: ""
       },
       partidoActual: [],
-      // {
-      //       fecha : "",
-      //       notas : "",
-      //       equipoA: {portero: {goles:0}, latizq: {goles:0}, latdcho: {goles:0}, central: {goles:0}, extizq: {goles:0}, extdcho: {goles:0},  delantero: {goles:0}},
-      //       equipoB: {portero: {goles:0}, latizq: {goles:0}, latdcho: {goles:0}, central: {goles:0}, extizq: {goles:0}, extdcho: {goles:0},  delantero: {goles:0}}
-      // }
       partidos:[],
+      punteroPartidos: 0,
       clasifica:[],
       jugadores:[],
     },
 
     computed:{
       datosOK : function(){
+
          return this.partidoActual.fecha &&
                 this.partidoActual.equipoA.portero.nombre &&
                 this.partidoActual.equipoA.latizq.nombre &&
@@ -208,6 +248,9 @@ var vm = new Vue({
                 this.partidoActual.equipoB.extizq.nombre &&
                 this.partidoActual.equipoB.extdcho.nombre &&
                 this.partidoActual.equipoB.delantero.nombre ;
+      },
+      numPartidos: function(){
+        return this.jugadores.length-1;
       },
       golesEquipoA: function(){
           return parseInt(this.partidoActual.equipoA.portero.goles)+
@@ -229,6 +272,9 @@ var vm = new Vue({
       },
       textoBoton1: function(){
         return this.verPartidos ? "Clasificación" : "Ver Partidos";
+      },
+      textoBoton2: function(){
+        return this.datosOK ? "Crea Partido" : "Cancelar";
       },
       jugEquipoA: function(){
         var equipo=[];

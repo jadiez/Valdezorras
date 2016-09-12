@@ -7,31 +7,36 @@
 }
 
 .footer{
+  display: table;
+  width: 320px;
   padding: 7px 7px 0px 7px;
   background-color: WhiteSmoke  ;
   border-radius: 4px;
   border: 1px solid #bbb;
-  margin-bottom: 3px;
 }
 
-#titulo{
-  height: 40px;
-  padding: 0px 10px;
+.campoVerde{
+  background-color: green;
+  border: 1px solid #bbb;
+}
+
+.titulo{
+  height: 38px;
+  padding: 0px 10px 0px 0px;
   color: #555;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 600;
   line-height: 38px;
   letter-spacing: .1rem;
 }
 
 .subtitulo{
-  width:400px;
+  width:335px;
   display: inline-block;
   height: 38px;
-  padding: 0 10px;
   /*color: #555;*/
   text-align: center;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
   line-height: 38px;
   letter-spacing: .1rem;
@@ -50,12 +55,12 @@
 }
 
 .campoJuego{
-  background-image: url("../img/campoFutbol2.jpg");
+  background-image: url("../img/campoFutbol.jpg");
   background-repeat: no-repeat;
   width: 320px;
   height:440px;
   /*background-color: green;*/
-  border: 1px 1px 1px 1px;
+  border: 1px solid;
   position: relative;
 }
 
@@ -67,6 +72,10 @@
   padding: 3px 0px 3px 0px ;
   border-radius: 4px;
 }
+.jugador{
+  text-align: left;
+  width: 70px;
+}
 
 .fechaSelector{
   display: inline-block;
@@ -74,15 +83,17 @@
   padding: 0 10px;
   color: #555;
   text-align: center;
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 900;
   line-height: 38px;
-  letter-spacing: .1rem;
   white-space: nowrap;
   background-color: transparent;
   border-radius: 4px;
   border: 1px solid #bbb;
   box-sizing: border-box;
+}
+.numPartidos{
+  font-weight: 400;
 }
 
 .equipoAzul{
@@ -97,9 +108,10 @@
   display: inline;
 }
 .goles{
-  padding-left: 5px;
+  padding-left: 1px;
   display: inline;
-  color: yellow;
+  color: darkblue ;
+  width: 20px;
 }
 .porteroA{
   position: absolute;

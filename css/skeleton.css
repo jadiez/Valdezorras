@@ -33,7 +33,7 @@
   width: 100%;
   max-width: 960px;
   margin: 0 auto;
-  padding: 0px 20px;
+  padding: 0px 0px;
   box-sizing: border-box; }
 .column,
 .columns {
@@ -42,16 +42,16 @@
   box-sizing: border-box; }
 
 /* For devices larger than 400px */
-@media (min-width: 320px) {
+@media (min-width: 321px) {
   .container {
-    width: 100%;
-    padding: 0; }
+    width: 90%;
+    padding: 10px;; }
 }
 
 /* For devices larger than 550px */
-@media (min-width: 479px) {
+@media (min-width: 420px) {
   .container {
-    width: 96%; }
+    width: 80%; }
   .column,
   .columns {
     margin-left: 3%; }
@@ -121,7 +121,7 @@ are based on 10px sizing. So basically 1.5rem = 15px :) */
 html {
   font-size: 62.5%; }
 body {
-  font-size: 1.5em; /* currently ems cause chrome bug misinterpreting rems on body element */
+  font-size: 1.4em; /* currently ems cause chrome bug misinterpreting rems on body element */
   line-height: 1.6;
   font-weight: 400;
   font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -187,6 +187,11 @@ input[type="button"] {
   border: 1px solid #bbb;
   cursor: pointer;
   box-sizing: border-box; }
+
+.button.button-primary:disabled,
+button:disabled{
+  opacity: 0.5;
+  cursor: not-allowed;}
 .button:hover,
 button:hover,
 input[type="submit"]:hover,
@@ -221,7 +226,6 @@ input[type="button"].button-primary:focus {
   color: #FFF;
   background-color: #1EAEDB;
   border-color: #1EAEDB; }
-
 
 /* Forms
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
@@ -324,7 +328,7 @@ pre > code {
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 th,
 td {
-  padding: 6px 7px;
+  padding: 5px 4px;
   text-align: right;
   border-bottom: 1px solid #E1E1E1; }
 th:first-child,
