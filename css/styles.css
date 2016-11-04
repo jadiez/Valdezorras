@@ -1,11 +1,48 @@
-.cabecera{
-  /*padding: 7px 7px 0px 7px;
-  background-color: WhiteSmoke  ;
-  border-radius: 4px;
-  border: 1px solid #bbb;
-  margin-bottom: 3px;*/
+*{
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
 }
 
+
+@media screen and (max-width: 359px) {
+    table {
+        font-size: 11px;
+    }
+}
+
+th {
+  background-color: #42b983;
+  color: rgba(255,255,255,0.66);
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+/*.arrow {
+  display: inline-block;
+  vertical-align: middle;
+  width: 0;
+  height: 0;
+  margin-left: 5px;
+  opacity: 1;
+}
+
+.arrow.asc {
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-bottom: 4px solid #fff;
+}
+
+.arrow.dsc {
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid #fff;
+}*/
+.ordenado{
+  color: darkblue;
+}
 .footer{
   display: table;
   width: 320px;
@@ -20,41 +57,8 @@
   border: 1px solid #bbb;
 }
 
-.titulo{
-  height: 38px;
-  padding: 0px 10px 0px 0px;
-  color: #555;
-  font-size: 20px;
-  font-weight: 600;
-  line-height: 38px;
-  letter-spacing: .1rem;
-}
-
-.subtitulo{
-  width:335px;
-  display: inline-block;
-  height: 38px;
-  /*color: #555;*/
-  text-align: center;
-  font-size: 15px;
-  font-weight: 600;
-  line-height: 38px;
-  letter-spacing: .1rem;
-  text-transform: uppercase;
-  text-decoration: none;
-  white-space: nowrap;
-  /*background-color: transparent;*/
-  border-radius: 4px;
-  border: 1px solid;
-  cursor: pointer;
-  box-sizing: border-box;
-  color: #FFF;
-  background-color: #33C3F0;
-  border-color: #33C3F0;
-  /*border-color: #bbb;*/
-}
-
 .campoJuego{
+  margin-top: 10px;
   background-image: url("../img/campoFutbol.jpg");
   background-repeat: no-repeat;
   width: 320px;
@@ -73,29 +77,15 @@
   border-radius: 4px;
 }
 .jugador{
-  text-align: left;
-  width: 70px;
+    display: inline;
+    text-align: left;
+    width: 80px;
+    padding: 0px 2px;
 }
-
-.fechaSelector{
-  display: inline-block;
-  height: 38px;
-  padding: 0 10px;
-  color: #555;
-  text-align: center;
-  font-size: 15px;
-  font-weight: 900;
-  line-height: 38px;
-  white-space: nowrap;
-  background-color: transparent;
-  border-radius: 4px;
-  border: 1px solid #bbb;
-  box-sizing: border-box;
+.goles{
+  padding: 0px 0px;
+  margin: 0px 0px;
 }
-.numPartidos{
-  font-weight: 400;
-}
-
 .equipoAzul{
   text-align: center;
   background-color: deepskyblue;
@@ -107,11 +97,11 @@
 .nombre{
   display: inline;
 }
-.goles{
-  padding-left: 1px;
-  display: inline;
-  color: darkblue ;
-  width: 20px;
+.btnSM{
+    padding-left: 0px;
+    padding-right: 0px;
+    font-size: medium;
+    width: 14px;
 }
 .porteroA{
   position: absolute;

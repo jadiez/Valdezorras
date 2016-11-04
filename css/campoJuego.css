@@ -1,0 +1,147 @@
+*{
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 359px) {
+    table {
+        font-size: 11px;
+    }
+    .btn {
+      font-size: 12px;
+    }
+    .equipo{
+      font-size: 16px;
+    }
+    .navbar{
+      margin-bottom: 10px;
+    }
+    .navbar-brand{
+      padding-left: 5px;
+    }
+    .panel-title{
+      font-size: 15px;
+    }
+    .navegacion2{
+      width:150px;
+    }
+    .contenedor-row{
+      font-size: 12px;
+    }
+
+}
+@media (min-width: 501px) {
+  .container {
+    width: 500px;
+  }
+}
+
+.campoA{
+    width: 100%;
+    height: 205px;
+    background-image: url('../img/campoA.png');
+    background-size: cover;
+    padding: 10px 0px 0px 0px;
+    background-size: 100% 100%;
+}
+.campoB{
+    width: 100%;
+    height: 205px;
+    background-image: url('../img/campoB.png');
+    background-size: cover;
+    padding: 0px 0px 10px 0px;
+    background-size: 100% 100%;
+}
+
+th {
+  background-color: #42b983;
+  color: rgba(255,255,255,0.66);
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.btnSM{
+    padding-left: 0px;
+    padding-right: 0px;
+    font-size: medium;
+    width: 14px;
+}
+
+.ordenado{
+  color: darkblue;
+}
+
+body{
+    height: 100vh;
+}
+.contenedor{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.contenedor-row{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-bottom: 2px;
+  border: 1px solid #337ab7;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+  box-shadow: 0 1px 1px rgba(0,0,0,.05);
+  background-color: dimgrey;
+  padding: 4px 4px;
+  font-size: 14px;
+}
+
+.navegacion{
+  display: flex;
+}
+
+.navegacion2{
+  width:161px;
+}
+
+.linea{ 
+  padding: 4px;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
+  text-align: center;
+  font-size: 16px;
+}
+
+.equipo{
+  width: 124px;
+  display: flex;
+  justify-content: space-around;
+  opacity:0.85;
+  border-radius: 4px;
+  padding: 4px 0px 4px 0px ;
+}
+
+.Azul{
+  background: dodgerblue;
+}
+
+.Rojo{
+  background: red;
+}
+
+.goles{
+    display: inline-block;
+    min-width: 10px;
+    padding: 3px 7px;
+    font-weight: 700;
+    line-height: 1;
+    color: darkred;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    background-color: whitesmoke;
+    border-radius: 10px;
+    font-size: 14px;
+}

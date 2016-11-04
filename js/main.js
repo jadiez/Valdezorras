@@ -56,8 +56,8 @@ var vm = new Vue({
          for (var player in objeto){
              var ptos = (objeto[player].ganados | 0)*3 + (objeto[player].empatados | 0)*2 + (objeto[player].perdidos | 0);
              var jugados = (objeto[player].ganados | 0)+(objeto[player].empatados|0)+(objeto[player].perdidos|0);
-             var mvp = (ptos*0.6 + (objeto[player].goles|0) * 0.1 + jugados* 0.3);
-             vm.clasifica.unshift({
+             /*var mvp = (ptos*0.6 + (objeto[player].goles|0) * 0.1 + jugados* 0.3);*/
+             vm.clasifica.push({
                "jugador" : player,
                "nombre": objeto[player].nombre,
                "jugados": jugados,
@@ -66,7 +66,7 @@ var vm = new Vue({
                "perdidos":objeto[player].perdidos | 0,
                "goles" : objeto[player].goles | 0,
                "puntos" : ptos,
-               "mvp" :  mvp.toFixed(1)
+               /*"mvp" :  mvp.toFixed(1)*/
              });
          }
       });
@@ -75,15 +75,36 @@ var vm = new Vue({
 
     // Metodos
     methods: {
+      ordenarPor: function(columna){
+        this.columnaOrdenNum = (this.columnaOrdenNum === 1)?-1:1;
+        this.columnaOrden=columna;
+        for(var col in this.orden){
+          this.orden[col]=(col===columna)?true:false;
+        };
+      },
       conectar: function () {
-        var clave = prompt("Introduce la clave", "Mekivel1" );
+        var clave = prompt("Introduce la clave", "" );
         this.partidoActual =  {
-              fecha : "", notas : "",
-              equipoA: {portero: {goles:0}, latizq: {goles:0}, latdcho: {goles:0}, central: {goles:0}, extizq: {goles:0}, extdcho: {goles:0},  delantero: {goles:0}},
-              equipoB: {portero: {goles:0}, latizq: {goles:0}, latdcho: {goles:0}, central: {goles:0}, extizq: {goles:0}, extdcho: {goles:0},  delantero: {goles:0}}
+              fecha : "2016/01/01", notas : "",
+              equipoA: {portero: {nombre: null ,goles:0},
+                         latizq: {nombre: null ,goles:0},
+                        latdcho: {nombre: null ,goles:0},
+                        central: {nombre: null ,goles:0},
+                         extizq: {nombre: null ,goles:0},
+                        extdcho: {nombre: null ,goles:0},
+                      delantero: {nombre: null ,goles:0}
+                    },
+              equipoB: {portero: {nombre: null ,goles:0},
+                         latizq: {nombre: null ,goles:0},
+                        latdcho: {nombre: null ,goles:0},
+                        central: {nombre: null ,goles:0},
+                         extizq: {nombre: null ,goles:0},
+                        extdcho: {nombre: null ,goles:0},
+                      delantero: {nombre: null ,goles:0}
+                    }
         };
         if (clave !== null) {
-          firebase.auth().signInWithEmailAndPassword("jadiez@fonotex.es", clave).catch(function(error) {
+          firebase.auth().signInWithEmailAndPassword("jadiez@fonotex.es", "Calecio").catch(function(error) {
             // Handle Errors here.
             var errorCode = error.code;
             var errorMessage = error.message;
@@ -116,23 +137,109 @@ var vm = new Vue({
         }
         this.partidoActual = this.partidos[this.punteroPartidos];
       },
-
       guardaPartido: function(){
         if(this.textoBoton2 =="Cancelar"){
           alert ("Operación cancelada");
         }else{
+          //Añade pardido actual ala base de datos
+          db.ref('partidos/').push({
+            fecha : this.partidoActual.fecha,
+            notas: "",
+            equipoA: this.partidoActual.equipoA,
+            equipoB: this.partidoActual.equipoB
+          });
+
+          //Actualizamos datos partidos en tabla jugadores
+          // Variables
+          var player="" , golesAntes=0 , ganadosAntes=0, perdidosAntes=0 , empatadosAntes=0 ;
+          // ******************** GANADOR EQUIPO A **********
+
+          // Si no existen los jugadores los creamos
+          for(var ix in this.jugEquipoA){
+            //Si no existe el jugador se cre nuevo
+            if(!vm.jugadores[this.jugEquipoA[ix].nombre]){
+              console.log("Creado jugador equipo A: " + this.jugEquipoA[ix].nombre);
+              db.ref('jugadores/'+this.jugEquipoA[ix].nombre).set({
+                ganados: 0,
+                perdidos:0,
+                empatados:0,
+                goles: 0
+              });
+            }
+          }
+          for(ix in this.jugEquipoB){
+           //Si no existe el jugador se cre nuevo
+            if(!vm.jugadores[this.jugEquipoB[ix].nombre]){
+              console.log("Creado jugador equipo B: " + this.jugEquipoB[ix].nombre);
+              db.ref('jugadores/'+this.jugEquipoB[ix].nombre).set({
+                ganados: 0,
+                perdidos:0,
+                empatados:0,
+                goles: 0
+              });
+            }
+          }
+          // Fin creacion de usuarios
+
+          // Actualizamos los goles y numero partidos ganados a los jugadores del equipo A
+           if (this.golesEquipoA > this.golesEquipoB){
+             for(ix in this.jugEquipoA){
+                player = this.jugEquipoA[ix].nombre;
+                ganadosAntes= (vm.jugadores[player].ganados |0);
+                golesAntes  = (vm.jugadores[player].goles | 0);
+
+                db.ref('jugadores/'+player).update({
+                  ganados: ganadosAntes + 1,
+                  goles: golesAntes + (this.jugEquipoA[ix].goles | 0)
+                });
+            }
+            // Actualizamos los goles y numero partidos perdidos a los jugadores del equipo B
+            for(var ix1 in vm.jugEquipoB){
+              player = this.jugEquipoB[ix1].nombre;
+              perdidosAntes=(vm.jugadores[player].perdidos |0);
+              golesAntes  = (vm.jugadores[player].goles | 0);
+
+              db.ref('jugadores/'+player).update({
+                perdidos: perdidosAntes + 1,
+                goles: golesAntes + (this.jugEquipoB[ix1].goles | 0)
+              });
+            }
+          }
+          else if(this.golesEquipoB > this.golesEquipoA){
+            for(ix in vm.jugEquipoB){
+              db.ref('jugadores/'+this.jugEquipoB[ix].nombre).update({
+                ganados: (vm.jugadores[this.jugEquipoB[ix].nombre].ganados|0) + 1,
+                goles: (vm.jugadores[this.jugEquipoB[ix].nombre].goles | 0) + (this.jugEquipoB[ix].goles | 0)
+              });
+            }
+            for(ix in vm.jugEquipoA){
+              db.ref('jugadores/'+this.jugEquipoA[ix].nombre).update({
+                perdidos: (vm.jugadores[this.jugEquipoA[ix].nombre].perdidos|0) + 1,
+                goles: (vm.jugadores[this.jugEquipoA[ix].nombre].goles | 0) + (this.jugEquipoA[ix].goles | 0)
+              });
+            }
+          }else{
+            for(var p5 in vm.jugEquipoB){
+              db.ref('jugadores/'+this.jugEquipoB[p5].nombre).update({
+                empatados: (vm.jugadores[this.jugEquipoB[p5].nombre].empatados|0)+1,
+                goles: (vm.jugadores[this.jugEquipoB[p5].nombre].goles | 0) + (this.jugEquipoB[p5].goles | 0)
+              });
+            }
+            for(var p6 in vm.jugEquipoA){
+              db.ref('jugadores/'+this.jugEquipoA[p6].nombre).update({
+                empatados: (vm.jugadores[this.jugEquipoA[p6].nombre].empatados|0)+1,
+                goles: (vm.jugadores[this.jugEquipoA[p6].nombre].goles | 0) + (this.jugEquipoA[p6].goles | 0)
+              });
+            }
+          }
           alert ("Partido Guardado");
         }
+        // Asigna partidoActual al ultimo partido de la base de Datos
         this.partidoActual = this.partidos[this.partidos.length-1];
         this.addPartidos =false;
       }
-      //   // db.ref('partidos/').push({
-      //   //   fecha : this.partidoActual.fecha,
-      //   //   notas: "",
-      //   //   equipoA: this.partidoActual.equipoA,
-      //   //   equipoB: this.partidoActual.equipoB
-      //   // });
-      //
+    },
+
       //   //  Actualiza datos jugadores del partidoActual
       //   db.ref('jugadores/MOI').set({
       //     ganados:0,
@@ -146,73 +253,6 @@ var vm = new Vue({
       //     empatados:0,
       //     goles: 1
       //   });
-
-        // if (this.golesEquipoA > this.golesEquipoB){
-        //     for(var ix in vm.jugEquipoA){
-        //       player= vm.jugEquipoA[ix].toUpperCase() | "indefinido";
-        //       console.log(player);
-        //       if(!vm.jugadores[player]){
-        //         db.ref('jugadores/'+player).set({
-        //           ganados:0,
-        //           perdidos:0,
-        //           empatados:0
-        //         });
-        //       }
-        //         _ganados = vm.jugadores[player]["ganados"] ;
-        //         _goles  = vm.jugadores[player]["goles"];
-        //         db.ref('jugadores/'+player).update({
-        //           ganados: _ganados + 1,
-        //           goles: _goles + 1
-        //         });
-        //     }
-        //     for(var ix1 in vm.jugEquipoB){
-        //       player= vm.jugEquipoB[ix].toUpperCase() | "indefinido";
-        //       if(!vm.jugadores[player]){
-        //         db.ref('jugadores/'+player).set({
-        //           ganados:0,
-        //           perdidos:0,
-        //           empatados:0
-        //         });
-        //       }
-        //       _perdidos = (vm.jugadores[player]["perdidos"] | 0);
-        //       _goles  = (vm.jugadores[player]["goles"] | 0);
-        //       db.ref('jugadores/'+player).update({
-        //         perdidos: _perdidos + 1,
-        //         goles: (this.jugadores[vm.jugEquipoA[ix1]]["goles"] | 0) + 1
-        //       });
-        //     }
-
-
-        // } else if(this.golesEquipoB > this.golesEquipoA){
-        //   for(var ix2 in vm.jugEquipoB){
-        //     db.ref('jugadores/'+vm.jugEquipoB[ix2].toUpperCase()).update({
-        //       ganados: (this.jugadores[vm.jugEquipoB[ix2]].ganados|0) + 1,
-        //       goles: (this.jugadores[vm.jugEquipoA[ix2]].goles | 0) + 1
-        //     });
-        //   }
-        //   for(var p4 in vm.jugEquipoA){
-        //     db.ref('jugadores/'+vm.jugEquipoB[p4].toUpperCase()).update({
-        //       perdidos: (this.jugadores[vm.jugEquipoA[p4]].perdidos|0)+1,
-        //       goles: (this.jugadores[vm.jugEquipoA[p4]].goles | 0) + 1
-        //     });
-        //   }
-        // } else{
-        //   for(var p5 in vm.jugEquipoB){
-        //     db.ref('jugadores/'+vm.jugEquipoB[p5]).update({
-        //       empatados: (this.jugadores[vm.jugEquipoB[p5]].empatados|0)+1,
-        //       goles: (this.jugadores[vm.jugEquipoA[p5]].goles | 0) + 1
-        //     });
-        //   }
-        //   for(var p6 in vm.jugEquipoA){
-        //     db.ref('jugadores/'+vm.jugEquipoA[p6]).update({
-        //       empatados: (this.jugadores[vm.jugEquipoA[p6]].empatados|0)+1,
-        //       goles: (this.jugadores[vm.jugEquipoA[p6]].goles | 0) + 1
-        //     });
-        //   }
-        // }
-        // alert("Datos guardado");
-
-    },
 
     // ########################  Datos
     data: {
@@ -228,6 +268,17 @@ var vm = new Vue({
       punteroPartidos: 0,
       clasifica:[],
       jugadores:[],
+      orden:{
+        jugador: false,
+        jugados: false,
+        ganados: false,
+        empatados: false,
+        perdidos: false,
+        goles:false,
+        puntos: true
+      },
+      columnaOrden:'puntos',
+      columnaOrdenNum: -1,
     },
 
     computed:{
@@ -278,25 +329,38 @@ var vm = new Vue({
       },
       jugEquipoA: function(){
         var equipo=[];
-        equipo.push(this.partidoActual.equipoA.portero.nombre);
-        equipo.push(this.partidoActual.equipoA.latizq.nombre);
-        equipo.push(this.partidoActual.equipoA.latdcho.nombre);
-        equipo.push(this.partidoActual.equipoA.central.nombre);
-        equipo.push(this.partidoActual.equipoA.extizq.nombre);
-        equipo.push(this.partidoActual.equipoA.extdcho.nombre);
-        equipo.push(this.partidoActual.equipoA.delantero.nombre);
-        console.log("equipoA:" + equipo);
+        equipo.push({nombre: this.partidoActual.equipoA.portero.nombre.toUpperCase(),
+                      goles: this.partidoActual.equipoA.portero.goles});
+        equipo.push({nombre: this.partidoActual.equipoA.latizq.nombre.toUpperCase(),
+                      goles: this.partidoActual.equipoA.latizq.goles});
+        equipo.push({nombre: this.partidoActual.equipoA.latdcho.nombre.toUpperCase(),
+                      goles: this.partidoActual.equipoA.latdcho.goles});
+        equipo.push({nombre: this.partidoActual.equipoA.central.nombre.toUpperCase(),
+                      goles: this.partidoActual.equipoA.central.goles});
+        equipo.push({nombre: this.partidoActual.equipoA.extizq.nombre.toUpperCase(),
+                      goles: this.partidoActual.equipoA.extizq.goles});
+        equipo.push({nombre: this.partidoActual.equipoA.extdcho.nombre.toUpperCase(),
+                      goles: this.partidoActual.equipoA.extdcho.goles});
+        equipo.push({nombre: this.partidoActual.equipoA.delantero.nombre.toUpperCase(),
+                      goles: this.partidoActual.equipoA.delantero.goles});
         return equipo;
       },
       jugEquipoB: function(){
         var equipo=[];
-        equipo.push(this.partidoActual.equipoB.portero.nombre);
-        equipo.push(this.partidoActual.equipoB.latizq.nombre);
-        equipo.push(this.partidoActual.equipoB.latdcho.nombre);
-        equipo.push(this.partidoActual.equipoB.central.nombre);
-        equipo.push(this.partidoActual.equipoB.extizq.nombre);
-        equipo.push(this.partidoActual.equipoB.extdcho.nombre);
-        equipo.push(this.partidoActual.equipoB.delantero.nombre);
+        equipo.push({nombre: this.partidoActual.equipoB.portero.nombre.toUpperCase(),
+                      goles: this.partidoActual.equipoB.portero.goles});
+        equipo.push({nombre: this.partidoActual.equipoB.latizq.nombre.toUpperCase(),
+                      goles: this.partidoActual.equipoB.latizq.goles});
+        equipo.push({nombre: this.partidoActual.equipoB.latdcho.nombre.toUpperCase(),
+                      goles: this.partidoActual.equipoB.latdcho.goles});
+        equipo.push({nombre: this.partidoActual.equipoB.central.nombre.toUpperCase(),
+                      goles: this.partidoActual.equipoB.central.goles});
+        equipo.push({nombre: this.partidoActual.equipoB.extizq.nombre.toUpperCase(),
+                      goles: this.partidoActual.equipoB.extizq.goles});
+        equipo.push({nombre: this.partidoActual.equipoB.extdcho.nombre.toUpperCase(),
+                      goles: this.partidoActual.equipoB.extdcho.goles});
+        equipo.push({nombre: this.partidoActual.equipoB.delantero.nombre.toUpperCase(),
+                      goles: this.partidoActual.equipoB.delantero.goles});
         return equipo;
       }
     }
