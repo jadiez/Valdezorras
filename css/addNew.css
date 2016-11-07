@@ -1,0 +1,37 @@
+.contenedor{
+    display: flex;
+    flex-direction: row;
+    padding: 3px;
+    border: 1px solid red;
+    justify-content: space-around;
+    flex-wrap: nowrap;
+}
+
+.columna{
+    border: 1px solid blue;
+    display: flex;
+    flex-direction: column; 
+    flex-wrap: nowrap;
+}
+
+.nombre{
+    width: 80px;
+}
+
+.btnSM{
+    border-radius: 4px;
+}
+
+.goles{
+    border-radius: 50%;
+    border: 1px solid darkgrey;
+    background-color: lightgray;
+    color: darkslateblue;
+    padding: 2px 4px;;
+}
+.linea{
+    align-content: space-between;
+    font-size: 12px;
+    padding: 5px 0px;
+}
+

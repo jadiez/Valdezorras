@@ -68,7 +68,7 @@ th {
     padding-left: 0px;
     padding-right: 0px;
     font-size: medium;
-    width: 14px;
+    min-width: 20px;
 }
 
 .ordenado{
@@ -83,6 +83,18 @@ body{
   flex-direction: column;
   justify-content: flex-start;
 }
+.columnaEquipoA{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  border: 2px solid blue;
+}
+.columnaEquipoB{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  border: 2px solid darkred;
+}
 .contenedor-row{
   display: flex;
   flex-direction: row;
@@ -96,7 +108,10 @@ body{
   padding: 4px 4px;
   font-size: 14px;
 }
-
+input{
+  min-width: 60px;
+  font-size: 12px;
+}
 .navegacion{
   display: flex;
 }
@@ -114,6 +129,13 @@ body{
   font-size: 16px;
 }
 
+.linea2{ 
+  padding: 4px;
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+  
+}
 .equipo{
   width: 124px;
   display: flex;
