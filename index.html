@@ -6,8 +6,8 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <meta charset="utf-8">
   <title>Valdezorras</title>
-  <meta name="description" content="">
-  <meta name="author" content="">
+  <meta name="description" content="Liguilla de Futbol">
+  <meta name="author" content="JADiez">
 
   <!-- Mobile Specific Metas
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -19,7 +19,7 @@
   <!-- CSS
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  <link rel="stylesheet" href="css/campoJuego.css">
+  <link rel="stylesheet" href="css/styles.css">
 
   <!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -41,97 +41,119 @@
 
     <!-- Template Añadir nuevo partido
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <template v-if="addPartidos">
-        <div class="contenedor">
-          <div class="row well well-sm">
-              <div class="col-xs-6 text-left">
-                  <label>Fecha: </label><input v-model="partidoActual.fecha" type="date" class="form-control jugador">
-              </div>
-              <div class="col-xs-6 text-center">
-                  <label class="form-control"><strong class="text-primary">{{golesEquipoA}}</strong> - <strong class="text-danger">{{golesEquipoB}}</strong></label>
-              </div>
+    <template v-if="addPartidos">       
+      <div class="contenedor-flex">
+        <label>Fecha: </label>
+        <input v-model="partidoActual.fecha" type="date">
+        <label class="goles"><strong class="">{{golesEquipoA}}</strong> - <strong class="">{{golesEquipoB}}</strong></label>
+      </div>
+      <div class="contenedor"> 
+        <div class="contenedor-equipos" >
+          <!--***** EQUIPO AZUL ******-->
+          <div class="azul">
+            <div class="items">
+              <input class="jugador" placeholder="PORTERO"  type="text" v-model="partidoActual.equipoA.portero.nombre">
+              <button class="boton icon-minus" :disabled="partidoActual.equipoA.portero.goles==0" @click="partidoActual.equipoA.portero.goles--"></button>
+              <span class="goles">{{partidoActual.equipoA.portero.goles}}</span>
+              <button class="boton icon-plus" @click="partidoActual.equipoA.portero.goles++"></button>
+            </div>     
+            <div class="items">
+              <input class="jugador" placeholder="DEF.IZQ." type="text" v-model="partidoActual.equipoA.latizq.nombre">
+              <button class="boton icon-minus" :disabled="partidoActual.equipoA.latizq.goles==0"   @click="partidoActual.equipoA.latizq.goles--"></button>
+              <span class="goles">{{partidoActual.equipoA.latizq.goles}}</span>
+              <button class="boton icon-plus" @click="partidoActual.equipoA.latizq.goles++"></button>
+            </div>        
+            <div class="items">
+              <input class="jugador" placeholder="CENTRAL" type="text" v-model="partidoActual.equipoA.central.nombre">
+              <button class="boton icon-minus" :disabled="partidoActual.equipoA.central.goles==0" @click="partidoActual.equipoA.central.goles--"></button>
+              <span class="goles">{{partidoActual.equipoA.central.goles}}</span>
+              <button class="boton icon-plus" @click="partidoActual.equipoA.central.goles++"></button>
+            </div>     
+            <div class="items">
+              <input class="jugador" placeholder="DEF.DCHO." type="text" v-model="partidoActual.equipoA.latdcho.nombre">
+              <button class="boton icon-minus" :disabled="partidoActual.equipoA.latdcho.goles==0" @click="partidoActual.equipoA.latdcho.goles--"></button>
+              <label class="goles">{{partidoActual.equipoA.latdcho.goles}}</label>
+              <button class="boton icon-plus" @click="partidoActual.equipoA.latdcho.gole++"></button>
+            </div>   
+            <div class="items">
+              <input class="jugador" placeholder="EXT.IZQ." type="text" v-model="partidoActual.equipoA.extizq.nombre">
+              <button class="boton icon-minus" :disabled="partidoActual.equipoA.extizq.goles==0"  @click="partidoActual.equipoA.extizq.goles--"></button>
+              <span class="goles">{{partidoActual.equipoA.extizq.goles}}</span>
+              <button class="boton icon-plus" @click="partidoActual.equipoA.extizq.goles++"></button>
+            </div>        
+            <div class="items">
+              <input class="jugador" placeholder="EXT.DCHO." type="text" v-model="partidoActual.equipoA.extdcho.nombre">
+              <button class="boton icon-minus" :disabled="partidoActual.equipoA.extdcho.goles==0" @click="partidoActual.equipoA.extdcho.goles--"></button>
+              <span class="goles">{{partidoActual.equipoA.extdcho.goles}}</span>
+              <button class="boton icon-plus" @click="partidoActual.equipoA.extdcho.goles++"></button>
+            </div>     
+            <div class="items">
+              <input class="jugador" placeholder="DELANTERO" type="text" v-model="partidoActual.equipoA.delantero.nombre">
+              <button class="boton icon-minus" :disabled="partidoActual.equipoA.delantero.goles==0" @click="partidoActual.equipoA.delantero.goles--"></button>
+              <span class="goles">{{partidoActual.equipoA.delantero.goles}}</span>
+              <button class="boton icon-plus" @click="partidoActual.equipoA.delantero.goles++"></button>
+            </div> 
           </div>
-            <!-- **** PORTERO ********* -->
-          <div class="row">
-              <div class="col-xs-6">
-                  <input class="form-control jugador" placeholder="PORTERO"  type="text" v-model="partidoActual.equipoA.portero.nombre">
-                  <button :disabled="partidoActual.equipoA.portero.goles==0" class="btnSM" @click="partidoActual.equipoA.portero.goles--">-</button><span class="badge">{{partidoActual.equipoA.portero.goles}}</span><button class="btnSM" @click="partidoActual.equipoA.portero.goles++">+</button>
-              </div>
-              <div class="col-xs-6">
-                  <input class="jugador form-control" placeholder="PORTERO"  type="text" v-model="partidoActual.equipoB.portero.nombre">
-                  <button :disabled="partidoActual.equipoB.portero.goles==0" class="btnSM" @click="partidoActual.equipoB.portero.goles--">-</button><span class="badge">{{partidoActual.equipoB.portero.goles}}</span><button class="btnSM" @click="partidoActual.equipoB.portero.goles++">+</button>
-              </div>
+          <!--***** EQUIPO ROJO ******-->
+          <div class="rojo">
+            <div class="items">
+              <input class="jugador" placeholder="PORTERO"  type="text" v-model="partidoActual.equipoB.portero.nombre">
+              <button class="boton icon-minus" "partidoActual.equipoB.portero.goles==0" @click="partidoActual.equipoB.portero.goles--"></button>
+              <span class="goles">{{partidoActual.equipoB.portero.goles}}</span>
+              <button class="boton icon-plus" @click="partidoActual.equipoB.portero.goles++"></button>
+            </div>     
+            <div class="items">
+              <input class="jugador" placeholder="DEF.IZQ." type="text" v-model="partidoActual.equipoB.latizq.nombre">
+              <button class="boton icon-minus" :disabled="partidoActual.equipoB.latizq.goles==0" @click="partidoActual.equipoB.latizq.goles--"></button>
+              <span class="goles">{{partidoActual.equipoB.latizq.goles}}</span>
+              <button class="boton icon-plus" @click="partidoActual.equipoB.latizq.goles++"></button>
+            </div>        
+            <div class="items">
+              <input class="jugador" placeholder="CENTRAL" type="text" v-model="partidoActual.equipoB.central.nombre">
+              <button class="boton icon-minus" :disabled="partidoActual.equipoB.central.goles==0" @click="partidoActual.equipoB.central.goles--"></button>
+              <span class="goles">{{partidoActual.equipoB.central.goles}}</span>
+              <button class="boton icon-plus" @click="partidoActual.equipoB.central.goles++"></button>
+            </div>     
+            <div class="items">
+              <input class="jugador" placeholder="DEF.IZQ." type="text" v-model="partidoActual.equipoB.latdcho.nombre">
+              <button class="boton icon-minus" :disabled="partidoActual.equipoB.latdcho.goles==0" @click="partidoActual.equipoB.latdcho.goles--"></button>
+              <span class="goles">{{partidoActual.equipoB.latdcho.goles}}</span>
+              <button class="boton icon-plus" @click="partidoActual.equipoB.latdcho.goles++"></button>
+            </div>   
+            <div class="items">
+              <input class="jugador" placeholder="EXT.IZQ." type="text" v-model="partidoActual.equipoB.extizq.nombre">
+              <button class="boton icon-minus" :disabled="partidoActual.equipoB.extizq.goles==0" @click="partidoActual.equipoB.extizq.goles--"></button>
+              <span class="goles">{{partidoActual.equipoB.extizq.goles}}</span>
+              <button class="boton icon-plus" @click="partidoActual.equipoB.extizq.goles++"></button>
+            </div>        
+            <div class="items">
+              <input class="jugador" placeholder="EXT.DCHO." type="text" v-model="partidoActual.equipoB.extdcho.nombre">
+              <button class="boton icon-minus" :disabled="partidoActual.equipoB.extdcho.goles==0" @click="partidoActual.equipoB.extdcho.goles--"></button>
+              <span class="goles">{{partidoActual.equipoB.extdcho.goles}}</span>
+              <button class="boton icon-plus" @click="partidoActual.equipoB.extdcho.goles++"></button>
+            </div>     
+            <div class="items">
+              <input class="jugador" placeholder="DELANTERO" type="text" v-model="partidoActual.equipoB.delantero.nombre">
+              <button class="boton icon-minus" :disabled="partidoActual.equipoB.delantero.goles==0" @click="partidoActual.equipoB.delantero.goles--"></button>
+              <span class="goles">{{partidoActual.equipoB.delantero.goles}}</span>
+              <button class="boton icon-plus" @click="partidoActual.equipoB.delantero.goles++"></button>
+            </div> 
           </div>
-          <!-- **** DEFENSA IZQUIERDO ********* -->
-          <div class="row">
-              <div class="col-xs-6">
-                  <input class="jugador form-control" placeholder="DEF.IZQ." type="text" v-model="partidoActual.equipoA.latizq.nombre">
-                  <button :disabled="partidoActual.equipoA.latizq.goles==0"  class="btnSM" @click="partidoActual.equipoA.latizq.goles--">-</button><span class="badge">{{partidoActual.equipoA.latizq.goles}}</span><button class="btnSM" @click="partidoActual.equipoA.latizq.goles++">+</button>
-              </div>
-              <div class="col-xs-6">
-                  <input class="jugador form-control" placeholder="DEF.IZQ." type="text" v-model="partidoActual.equipoB.latizq.nombre">
-                  <button class="btnSM" :disabled="partidoActual.equipoB.latizq.goles==0" @click="partidoActual.equipoB.latizq.goles--">-</button><span class="badge">{{partidoActual.equipoB.latizq.goles}}</span><button class="btnSM" @click="partidoActual.equipoB.latizq.goles++">+</button>
-                  </div>
-          </div>
-          <!-- **** DEFENSA DERECHO ********* -->
-          <div class="row">
-              <div class="col-xs-6">
-                  <input class="jugador form-control" placeholder="DEF.DCHO." type="text" v-model="partidoActual.equipoA.latdcho.nombre">
-                  <button class="btnSM" :disabled="partidoActual.equipoA.latdcho.goles==0" @click="partidoActual.equipoA.latdcho.goles--">-</button><label class="badge label-primary">{{partidoActual.equipoA.latdcho.goles}}</label><button class="btnSM" @click="partidoActual.equipoA.latdcho.goles++">+</button>
-              </div>
-              <div class="col-xs-6">
-                  <input class="jugador form-control" placeholder="DEF.IZQ." type="text" v-model="partidoActual.equipoB.latdcho.nombre">
-                  <button class="btnSM" :disabled="partidoActual.equipoB.latdcho.goles==0" @click="partidoActual.equipoB.latdcho.goles--">-</button><span class="badge">{{partidoActual.equipoB.latdcho.goles}}</span><button class="btnSM" @click="partidoActual.equipoB.latdcho.goles++">+</button>
-                  </div>
-          </div>
-          <!-- **** CENTRAL  ********* -->
-          <div class="row">
-              <div class="col-xs-6">
-                  <input class="jugador form-control" placeholder="CENTRAL" type="text" v-model="partidoActual.equipoA.central.nombre">
-                  <button class="btnSM" :disabled="partidoActual.equipoA.central.goles==0" @click="partidoActual.equipoA.central.goles--">-</button><span class="badge">{{partidoActual.equipoA.central.goles}}</span><button class="btnSM" @click="partidoActual.equipoA.central.goles++">+</button>
-              </div>
-              <div class="col-xs-6">
-                  <input class="jugador form-control" placeholder="CENTRAL" type="text" v-model="partidoActual.equipoB.central.nombre">
-                  <button class="btnSM" :disabled="partidoActual.equipoB.central.goles==0" @click="partidoActual.equipoB.central.goles--">-</button><span class="badge">{{partidoActual.equipoB.central.goles}}</span><button class="btnSM" @click="partidoActual.equipoB.central.goles++">+</button>
-              </div>
-          </div>
-          <!-- **** lATERAL IZQUIERDO  ********* -->
-          <div class="row">
-              <div class="col-xs-6">
-                  <input class="jugador form-control" placeholder="EXT.IZQ." type="text" v-model="partidoActual.equipoA.extizq.nombre">
-                  <button class="btnSM" :disabled="partidoActual.equipoA.extizq.goles==0"  @click="partidoActual.equipoA.extizq.goles--">-</button><span class="badge">{{partidoActual.equipoA.extizq.goles}}</span><button class="btnSM" @click="partidoActual.equipoA.extizq.goles++">+</button>
-              </div>
-              <div class="col-xs-6">
-                  <input class="jugador form-control" placeholder="EXT.IZQ." type="text" v-model="partidoActual.equipoB.extizq.nombre">
-                  <button class="btnSM" :disabled="partidoActual.equipoB.extizq.goles==0" @click="partidoActual.equipoB.extizq.goles--">-</button><span class="badge">{{partidoActual.equipoB.extizq.goles}}</span><button class="btnSM" @click="partidoActual.equipoB.extizq.goles++">+</button>
-              </div>
-          </div>
-          <!-- **** lATERAL DERECHO  ********* -->
-          <div class="row">
-              <div class="col-xs-6">
-                  <input class="jugador form-control" placeholder="EXT.DCHO." type="text" v-model="partidoActual.equipoA.extdcho.nombre">
-                  <button class="btnSM" :disabled="partidoActual.equipoA.extdcho.goles==0" @click="partidoActual.equipoA.extdcho.goles--">-</button><span class="badge">{{partidoActual.equipoA.extdcho.goles}}</span><button class="btnSM" @click="partidoActual.equipoA.extdcho.goles++">+</button>
-              </div>
-              <div class="col-xs-6">
-                  <input class="jugador form-control" placeholder="EXT.DCHO." type="text" v-model="partidoActual.equipoB.extdcho.nombre">
-                  <button class="btnSM" :disabled="partidoActual.equipoB.extdcho.goles==0" @click="partidoActual.equipoB.extdcho.goles--">-</button><span class="badge">{{partidoActual.equipoB.extdcho.goles}}</span><button class="btnSM" @click="partidoActual.equipoB.extdcho.goles++">+</button>
-              </div>
-          </div>
-          <!-- **** DELANTERO ********* -->
-          <div class="row">
-              <div class="col-xs-6">
-                  <input class="jugador form-control" placeholder="DELANTERO" type="text" v-model="partidoActual.equipoA.delantero.nombre">
-                  <button class="btnSM" :disabled="partidoActual.equipoA.delantero.goles==0" @click="partidoActual.equipoA.delantero.goles--">-</button><span class="badge">{{partidoActual.equipoA.delantero.goles}}</span><button class="btnSM" @click="partidoActual.equipoA.delantero.goles++">+</button>
-              </div>
-              <div class="col-xs-6">
-                  <input class="jugador form-control" placeholder="DELANTERO" type="text" v-model="partidoActual.equipoB.delantero.nombre">
-                  <button class="btnSM" :disabled="partidoActual.equipoB.delantero.goles==0" @click="partidoActual.equipoB.delantero.goles--">-</button><span class="badge">{{partidoActual.equipoB.delantero.goles}}</span><button class="btnSM" @click="partidoActual.equipoB.delantero.goles++">+</button>
-              </div>
-          </div>
+        </div>
+        <!--****** LISTADO JUGADORES ******-->
+        <div class="contenedor-jugadores">
+            <div class="player">FERNANDO</div>
+            <div class="player">jugador1</div>
+            <div class="player">jugador1</div>
+            <div class="player">jugador1</div>
+            <div class="player">jugador1</div>
+            <div class="player">jugador1</div>
+        </div>
       </div>
       <hr>
      </template>
-
+	 
+	 
     <!-- Template VerClasificacion
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <template v-if="!verPartidos && !addPartidos">
@@ -172,20 +194,18 @@
     <!-- Template Ver Historico de Partidos
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <template v-if="verPartidos && !addPartidos">
-      <div class="panel panel-primary contenedor-row">
-        <div class="btn-group navegacion" role="group">
-          <button  @click="partidoAnterior" class="btn btn-default" :disabled="punteroPartidos == 0">
+      <div class="contenedor-row">
+        <div class="navegacion2">
+          <button  @click="partidoAnterior" class="btn-default" :disabled="punteroPartidos == 0">
               <span class="glyphicon glyphicon-backward"</span>
           </button>
-          <a href="#" class="btn btn-primary navegacion2">
+          <div class="navegacion">
             <strong style="padding-right:5px">{{partidoActual.fecha}}</strong> 
-            <span class="badge">{{golesEquipoA}}</span>-<span class="badge">{{golesEquipoB}}</span>
-          </a>
-          <button @click="partidoSigiente" class="btn btn-default" :disabled="punteroPartidos == partidos.length - 1" >
+            <span class="goles">{{golesEquipoA}}</span>-<span class="goles">{{golesEquipoB}}</span>
+          </div>
+          <button @click="partidoSigiente" class="btn-default" :disabled="punteroPartidos == partidos.length - 1" >
             <span class="glyphicon glyphicon-forward"></span>
           </button>
-        </div>
-        <div class="btn-group " role="group">
           <span class="btn btn-warning">{{punteroPartidos+1}}/{{partidos.length}}</span>
         </div>
       </div>
@@ -196,39 +216,39 @@
           <div class="linea">
             <div class="equipo Rojo">
               <div class="nombre">{{partidoActual.equipoA.portero.nombre}}</div>
-              <div class="goles">{{partidoActual.equipoA.portero.goles}}</div>
+              <div class="goles2">{{partidoActual.equipoA.portero.goles}}</div>
             </div>
           </div>
           <div class="linea">
             <div class="equipo Rojo">
               <div class="nombre">{{partidoActual.equipoA.latdcho.nombre}}</div>
-              <div class="goles">{{partidoActual.equipoA.latdcho.goles}}</div>
+              <div class="goles2">{{partidoActual.equipoA.latdcho.goles}}</div>
             </div>
             <div class="equipo Rojo">
               <div class="nombre">{{partidoActual.equipoA.latizq.nombre}}</div>
-              <div class="goles">{{partidoActual.equipoA.latizq.goles}}</div>
+              <div class="goles2">{{partidoActual.equipoA.latizq.goles}}</div>
             </div>
           </div>
           <div class="linea">
             <div class="equipo Rojo">
               <div class="nombre">{{partidoActual.equipoA.central.nombre}}</div>
-              <span class="goles">{{partidoActual.equipoA.central.goles}}</span>
+              <span class="goles2">{{partidoActual.equipoA.central.goles}}</span>
             </div>
           </div>
           <div class="linea">
             <div class="equipo Rojo">
               <div class="nombre">{{partidoActual.equipoA.extdcho.nombre}}</div>
-              <div class="goles">{{partidoActual.equipoA.extdcho.goles}}</div>
+              <div class="goles2">{{partidoActual.equipoA.extdcho.goles}}</div>
             </div>
             <div class="equipo Rojo">
               <div class="nombre">{{partidoActual.equipoA.extizq.nombre}}</div>
-              <div class="goles">{{partidoActual.equipoA.extizq.goles}}</div>
+              <div class="goles2">{{partidoActual.equipoA.extizq.goles}}</div>
             </div>
           </div>
           <div class="linea">
             <div class="equipo Rojo">
               <div class="nombre">{{partidoActual.equipoA.delantero.nombre}}</div>
-              <div class="goles">{{partidoActual.equipoA.delantero.goles}}</div>
+              <div class="goles2">{{partidoActual.equipoA.delantero.goles}}</div>
             </div>
           </div>
         </div>
@@ -239,39 +259,39 @@
           <div class="linea">
             <div class="equipo Azul">
               <div class="nombre">{{partidoActual.equipoB.delantero.nombre}}</div>
-              <div class="goles">{{partidoActual.equipoB.delantero.goles}}</div>
+              <div class="goles2">{{partidoActual.equipoB.delantero.goles}}</div>
             </div>
           </div>
           <div class="linea">
             <div class="equipo Azul">
               <div class="nombre">{{partidoActual.equipoB.extdcho.nombre}}</div>
-              <div class="goles">{{partidoActual.equipoB.extdcho.goles}}</div>
+              <div class="goles2">{{partidoActual.equipoB.extdcho.goles}}</div>
             </div>
             <div class="equipo Azul">
               <div class="nombre">{{partidoActual.equipoB.extizq.nombre}}</div>
-              <div class="goles">{{partidoActual.equipoB.extizq.goles}}</div>
+              <div class="goles2">{{partidoActual.equipoB.extizq.goles}}</div>
             </div>
           </div>
           <div class="linea">
             <div class="equipo Azul">
               <div class="nombre">{{partidoActual.equipoB.central.nombre}}</div>
-              <div class="goles">{{partidoActual.equipoB.central.goles}}</div>
+              <div class="goles2">{{partidoActual.equipoB.central.goles}}</div>
             </div>
           </div>
           <div class="linea">
             <div class="equipo Azul">
               <div class="nombre">{{partidoActual.equipoB.latdcho.nombre}}</div>
-              <div class="goles">{{partidoActual.equipoB.latdcho.goles}}</div>
+              <div class="goles2">{{partidoActual.equipoB.latdcho.goles}}</div>
             </div>
             <div class="equipo Azul">
               <div class="nombre">{{partidoActual.equipoB.latizq.nombre}}</div>
-              <div class="goles ">{{partidoActual.equipoB.latizq.goles}}</div>
+              <div class="goles2 ">{{partidoActual.equipoB.latizq.goles}}</div>
             </div>
           </div>
           <div class="linea">
             <div class="equipo Azul">
               <div class="nombre">{{partidoActual.equipoB.portero.nombre}}</div>
-              <div class="goles">{{partidoActual.equipoB.portero.goles}}</div>
+              <div class="goles2">{{partidoActual.equipoB.portero.goles}}</div>
             </div>
           </div>
         </div>
